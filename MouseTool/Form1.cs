@@ -26,7 +26,7 @@ namespace MouseTool
         {
             MainEventTimer = new System.Windows.Forms.Timer();
             MainEventTimer.Tick += new EventHandler(TimerTick);
-            MainEventTimer.Interval = 7; // Updates every 7ms (~144 FPS)
+            MainEventTimer.Interval = 10; // Updates every 10ms (100 FPS)
             MainEventTimer.Start();
         }
 
@@ -81,17 +81,17 @@ namespace MouseTool
                     Bitmap CroppedSection = StaticFunctions.CropRectangleFromImage(FullScreenshot, ImageSpace);
 
                     UpdateImage(CroppedSection);
+
+                    /* Not explicitly calling GC.collect() => Spikes from 200MB to 1.2GB of RAM
+                     * Explicitly calling GC.collect() => Consistent ~24MB RAM usage
+                     * + Explicitly disposing images here => Consistent ~16MB RAM usage
+                     * Will explore more things to optimize, if I find them
+                     */
+                    FullScreenshot.Dispose();
+                    CroppedSection.Dispose();
+                    
                 }
                 UpdateText($"X:{MousePosition.X}", $"Y:{MousePosition.Y}");
-
-                /*/ 
-                 * The garbage collector is called every-so-often normally, but due to the fast refresh rate,
-                 * the memory usage would end up skyrocketing then falling every two or so seconds (always >200MB still).
-                 * 
-                 * Calling it explicitly makes it stay at <30MB all the time.
-                 * 
-                 * Using the hide image button lowers memory usage to around 8MB and also lowers substantially the CPU usage.
-                /*/
 
                 GC.Collect();
             }
