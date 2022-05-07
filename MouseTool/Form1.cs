@@ -219,7 +219,7 @@ namespace MouseTool
         /// <param name="b">The full image</param>
         /// <param name="r">The rectangle to be cut</param>
         /// <param name="MiddlePixelColor">The color of the pixel in the middle/mouse position</param>
-        /// <returns></returns>
+        /// <returns>A cropped section of a bitmap image</returns>
         public static Bitmap CropRectangleFromImage(this Bitmap b, Rectangle r, out Color MiddlePixelColor)
         {
             Bitmap nb = new Bitmap(r.Width, r.Height);
@@ -259,7 +259,7 @@ namespace MouseTool
         /// <param name="CheckableWall">Size of the drawable rectangle in that direction (Rect.width/.height)</param>
         /// <param name="DiffParam">Starting point of the drawable rectangle in that direction (Rect.x/.y)</param>
         /// <param name="DirectionScreenLimit">The limit of the screen in that direction (ScreenBounds.width/.height)</param>
-        /// <returns></returns>
+        /// <returns>The constrained mouse position if on edge, the middle of the drawable rectangle if not or if an exception happens</returns>
         private static int GetCorrectPosition(int CursorPos, int CheckableWall, int DiffParam, int DirectionScreenLimit)
         {
             if (CursorPos > CheckableWall / 2 && CursorPos < DirectionScreenLimit - CheckableWall / 2)
