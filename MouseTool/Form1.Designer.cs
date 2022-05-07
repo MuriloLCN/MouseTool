@@ -120,7 +120,7 @@ namespace MouseTool
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(145, 128);
+            this.label1.Location = new System.Drawing.Point(129, 128);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(31, 13);
             this.label1.TabIndex = 9;
@@ -129,33 +129,33 @@ namespace MouseTool
             // RedComponent
             // 
             this.RedComponent.AutoSize = true;
-            this.RedComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RedComponent.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RedComponent.ForeColor = System.Drawing.Color.Red;
-            this.RedComponent.Location = new System.Drawing.Point(145, 147);
+            this.RedComponent.Location = new System.Drawing.Point(130, 141);
             this.RedComponent.Name = "RedComponent";
-            this.RedComponent.Size = new System.Drawing.Size(19, 18);
+            this.RedComponent.Size = new System.Drawing.Size(17, 16);
             this.RedComponent.TabIndex = 10;
             this.RedComponent.Text = "R";
             // 
             // GreenComponent
             // 
             this.GreenComponent.AutoSize = true;
-            this.GreenComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GreenComponent.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.GreenComponent.ForeColor = System.Drawing.Color.Lime;
-            this.GreenComponent.Location = new System.Drawing.Point(145, 171);
+            this.GreenComponent.Location = new System.Drawing.Point(129, 157);
             this.GreenComponent.Name = "GreenComponent";
-            this.GreenComponent.Size = new System.Drawing.Size(20, 18);
+            this.GreenComponent.Size = new System.Drawing.Size(18, 16);
             this.GreenComponent.TabIndex = 11;
             this.GreenComponent.Text = "G";
             // 
             // BlueComponent
             // 
             this.BlueComponent.AutoSize = true;
-            this.BlueComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BlueComponent.Font = new System.Drawing.Font("Arial", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.BlueComponent.ForeColor = System.Drawing.Color.Blue;
-            this.BlueComponent.Location = new System.Drawing.Point(146, 196);
+            this.BlueComponent.Location = new System.Drawing.Point(130, 173);
             this.BlueComponent.Name = "BlueComponent";
-            this.BlueComponent.Size = new System.Drawing.Size(19, 18);
+            this.BlueComponent.Size = new System.Drawing.Size(17, 16);
             this.BlueComponent.TabIndex = 12;
             this.BlueComponent.Text = "B";
             // 
