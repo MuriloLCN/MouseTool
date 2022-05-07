@@ -6,6 +6,9 @@ namespace MouseTool
 {
     public partial class MouseTool : Form
     {
+        // Toggle image without losing track of element
+        bool IsImageActive = true;
+
         // Measures for screen and zoom
         static int MonitorWidth = Screen.PrimaryScreen.Bounds.Width;
         static int MonitorHeight = Screen.PrimaryScreen.Bounds.Height;
@@ -52,7 +55,8 @@ namespace MouseTool
 
                 Point MousePosition = System.Windows.Forms.Cursor.Position;
 
-                if (!ToggleImage.Checked)
+                //if (!ToggleImage.Checked)
+                if (IsImageActive)
                 {
                     Point InitialPoint = new Point(MousePosition.X - SizeX, MousePosition.Y - SizeY);
                     Point EndPoint = new Point(MousePosition.X + SizeX, MousePosition.Y + SizeY);
@@ -78,9 +82,11 @@ namespace MouseTool
                 
                     Bitmap FullScreenshot = GetScreenshot();
                     Rectangle ImageSpace = new Rectangle(InitialPoint.X, InitialPoint.Y, 2 * SizeX, 2 * SizeY);
-                    Bitmap CroppedSection = StaticFunctions.CropRectangleFromImage(FullScreenshot, ImageSpace);
+                    Color FocusColor;
+                    Bitmap CroppedSection = StaticFunctions.CropRectangleFromImage(FullScreenshot, ImageSpace, out FocusColor);
 
                     UpdateImage(CroppedSection);
+                    UpdateColor(FocusColor.R, FocusColor.G, FocusColor.B);
 
                     /* Not explicitly calling GC.collect() => Spikes from 200MB to 1.2GB of RAM
                      * Explicitly calling GC.collect() => Consistent ~24MB RAM usage
@@ -117,6 +123,13 @@ namespace MouseTool
             ScreenSection.Refresh();
         }
 
+        private void UpdateColor(int red, int green, int blue)
+        {
+            RedComponent.Text = $"R: {red}";
+            GreenComponent.Text = $"G: {green}";
+            BlueComponent.Text = $"B: {blue}";
+        }
+
         private void UpdateText(string x, string y)
         {
             CoordsX.Text = x;
@@ -138,25 +151,34 @@ namespace MouseTool
         {
             if (ToggleImage.Checked)
             {
-                ScreenSection.Visible = false;
+                //ScreenSection.Visible = false;
+                IsImageActive = false;
+                ScreenSection.Image = null;
             }
             else
             {
-                ScreenSection.Visible = true;
+                //ScreenSection.Visible = true;
+                IsImageActive = true;
             }
         }
     }
     static class StaticFunctions
     {
         // From here: https://stackoverflow.com/a/7939908/16110236
-        public static Bitmap CropRectangleFromImage(this Bitmap b, Rectangle r)
+        public static Bitmap CropRectangleFromImage(this Bitmap b, Rectangle r, out Color MiddlePixelColor)
         {
             Bitmap nb = new Bitmap(r.Width, r.Height);
             using (Graphics g = Graphics.FromImage(nb))
             {
                 g.DrawImage(b, -r.X, -r.Y);
                 Color red = Color.Red;
-                nb.SetPixel((int)Math.Floor((double)r.Width / 2),(int)Math.Floor((double)r.Height/2),red);
+                int MidX = (int)Math.Floor((double)r.Width / 2);
+                int MidY = (int)Math.Floor((double)r.Height / 2);
+
+                MiddlePixelColor = nb.GetPixel(MidX, MidY);
+
+                //nb.SetPixel((int)Math.Floor((double)r.Width / 2),(int)Math.Floor((double)r.Height/2),red);
+                nb.SetPixel(MidX, MidY, red);
                 return nb;
             }
         }

@@ -37,6 +37,10 @@ namespace MouseTool
             this.Text2 = new System.Windows.Forms.Label();
             this.ToggleImage = new System.Windows.Forms.CheckBox();
             this.Text1 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.RedComponent = new System.Windows.Forms.Label();
+            this.GreenComponent = new System.Windows.Forms.Label();
+            this.BlueComponent = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.ScreenSection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.ZoomLevelBar)).BeginInit();
             this.SuspendLayout();
@@ -98,9 +102,9 @@ namespace MouseTool
             this.ToggleImage.AutoSize = true;
             this.ToggleImage.Location = new System.Drawing.Point(16, 268);
             this.ToggleImage.Name = "ToggleImage";
-            this.ToggleImage.Size = new System.Drawing.Size(179, 17);
+            this.ToggleImage.Size = new System.Drawing.Size(80, 17);
             this.ToggleImage.TabIndex = 7;
-            this.ToggleImage.Text = "Hide Image (Better performance)";
+            this.ToggleImage.Text = "Hide Image";
             this.ToggleImage.UseVisualStyleBackColor = true;
             this.ToggleImage.CheckedChanged += new System.EventHandler(this.zoom_toggle_CheckedChanged);
             // 
@@ -113,11 +117,57 @@ namespace MouseTool
             this.Text1.TabIndex = 8;
             this.Text1.Text = "Mouse Position";
             // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(145, 128);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(31, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Color";
+            // 
+            // RedComponent
+            // 
+            this.RedComponent.AutoSize = true;
+            this.RedComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RedComponent.ForeColor = System.Drawing.Color.Red;
+            this.RedComponent.Location = new System.Drawing.Point(145, 147);
+            this.RedComponent.Name = "RedComponent";
+            this.RedComponent.Size = new System.Drawing.Size(19, 18);
+            this.RedComponent.TabIndex = 10;
+            this.RedComponent.Text = "R";
+            // 
+            // GreenComponent
+            // 
+            this.GreenComponent.AutoSize = true;
+            this.GreenComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.GreenComponent.ForeColor = System.Drawing.Color.Lime;
+            this.GreenComponent.Location = new System.Drawing.Point(145, 171);
+            this.GreenComponent.Name = "GreenComponent";
+            this.GreenComponent.Size = new System.Drawing.Size(20, 18);
+            this.GreenComponent.TabIndex = 11;
+            this.GreenComponent.Text = "G";
+            // 
+            // BlueComponent
+            // 
+            this.BlueComponent.AutoSize = true;
+            this.BlueComponent.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BlueComponent.ForeColor = System.Drawing.Color.Blue;
+            this.BlueComponent.Location = new System.Drawing.Point(146, 196);
+            this.BlueComponent.Name = "BlueComponent";
+            this.BlueComponent.Size = new System.Drawing.Size(19, 18);
+            this.BlueComponent.TabIndex = 12;
+            this.BlueComponent.Text = "B";
+            // 
             // MouseTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(204, 292);
+            this.Controls.Add(this.BlueComponent);
+            this.Controls.Add(this.GreenComponent);
+            this.Controls.Add(this.RedComponent);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.Text1);
             this.Controls.Add(this.ToggleImage);
             this.Controls.Add(this.Text2);
@@ -144,6 +194,10 @@ namespace MouseTool
         private System.Windows.Forms.Label Text2;
         private System.Windows.Forms.CheckBox ToggleImage;
         private System.Windows.Forms.Label Text1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label RedComponent;
+        private System.Windows.Forms.Label GreenComponent;
+        private System.Windows.Forms.Label BlueComponent;
     }
 }
 
