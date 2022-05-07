@@ -65,6 +65,13 @@ namespace MouseTool
 
                 Point MousePosition = System.Windows.Forms.Cursor.Position;
 
+                if (WindowState == FormWindowState.Minimized)
+                {
+                    IsImageActive = false;
+                    ScreenSection.Image = null;
+                    ToggleImage.Checked = true;
+                }
+
                 //if (!ToggleImage.Checked)
                 if (IsImageActive)
                 {
@@ -200,6 +207,7 @@ namespace MouseTool
                 IsImageActive = true;
             }
         }
+
     }
     static class StaticFunctions
     {
