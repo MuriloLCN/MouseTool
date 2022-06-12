@@ -69,9 +69,9 @@ namespace MouseTool
             // 
             // ScreenSection
             // 
-            this.ScreenSection.Location = new System.Drawing.Point(12, 12);
+            this.ScreenSection.Location = new System.Drawing.Point(1, 1);
             this.ScreenSection.Name = "ScreenSection";
-            this.ScreenSection.Size = new System.Drawing.Size(178, 100);
+            this.ScreenSection.Size = new System.Drawing.Size(202, 125);
             this.ScreenSection.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.ScreenSection.TabIndex = 2;
             this.ScreenSection.TabStop = false;
@@ -189,7 +189,6 @@ namespace MouseTool
 
         private System.Windows.Forms.Label CoordsX;
         private System.Windows.Forms.Label CoordsY;
-        private System.Windows.Forms.PictureBox ScreenSection;
         private System.Windows.Forms.TrackBar ZoomLevelBar;
         private System.Windows.Forms.Label Text2;
         private System.Windows.Forms.CheckBox ToggleImage;
@@ -198,6 +197,7 @@ namespace MouseTool
         private System.Windows.Forms.Label RedComponent;
         private System.Windows.Forms.Label GreenComponent;
         private System.Windows.Forms.Label BlueComponent;
+        private System.Windows.Forms.PictureBox ScreenSection;
     }
 }
 

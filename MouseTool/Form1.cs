@@ -16,6 +16,8 @@ namespace MouseTool
         static int OriginalMeasureX = 80;
         static int OriginalMeasureY = 45;
 
+        int MarginRelief;
+
         int SizeX = OriginalMeasureX;
         int SizeY = OriginalMeasureY;
 
@@ -31,6 +33,7 @@ namespace MouseTool
         /// </summary>
         public void InitializeTimer()
         {
+            MarginRelief = this.Width - ScreenSection.Width;
             MainEventTimer = new System.Windows.Forms.Timer();
             MainEventTimer.Tick += new EventHandler(TimerTick);
             MainEventTimer.Interval = 16; // In ms
@@ -48,10 +51,18 @@ namespace MouseTool
         /// <summary>
         /// Updates the GUI elements every tick and cleans up garbage afterwards
         /// </summary>
+        /// 
+        private void TurnOffImage()
+        {
+            IsImageActive = false;
+            ScreenSection.Image = null;
+            ToggleImage.Checked = true;
+        }
         private void UpdateGUI()
         {
             try
             {
+
                 // Only updates the values if there has been a change in the slider
                 if (NeedsZoomLevelUpdate)
                 {
@@ -65,16 +76,15 @@ namespace MouseTool
 
                 Point MousePosition = System.Windows.Forms.Cursor.Position;
 
-                if (WindowState == FormWindowState.Minimized)
+                if (WindowState == FormWindowState.Minimized || this.Width < ScreenSection.Width + MarginRelief || this.Height < ScreenSection.Height + 31)
                 {
-                    IsImageActive = false;
-                    ScreenSection.Image = null;
-                    ToggleImage.Checked = true;
+                    TurnOffImage();
                 }
 
                 //if (!ToggleImage.Checked)
                 if (IsImageActive)
                 {
+
                     Point InitialPoint = new Point(MousePosition.X - SizeX, MousePosition.Y - SizeY);
                     Point EndPoint = new Point(MousePosition.X + SizeX, MousePosition.Y + SizeY);
 
@@ -126,6 +136,8 @@ namespace MouseTool
             }
         }
 
+
+
         /// <summary>
         /// Gets a screenshot of the entire screen
         /// </summary>
@@ -144,6 +156,7 @@ namespace MouseTool
         /// <param name="img">The image to be placed into the PictureBox element</param>
         private void UpdateImage(Image img)
         {
+            
             ScreenSection.Image = img;
             // Screen_Section.Update();
             ScreenSection.Refresh();
@@ -207,6 +220,7 @@ namespace MouseTool
                 IsImageActive = true;
             }
         }
+
 
     }
     static class StaticFunctions
