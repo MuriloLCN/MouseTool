@@ -106,23 +106,21 @@ namespace MouseTool
                         InitialPoint.Y = MonitorHeight - SizeY * 2 - 1;
                     }
 
-                
-                    Bitmap FullScreenshot = GetScreenshot();
-                    // The part of the screen that will get put into the frame
                     Rectangle ImageSpace = new Rectangle(InitialPoint.X, InitialPoint.Y, 2 * SizeX, 2 * SizeY);
-                    Color FocusColor;
-                    Bitmap CroppedSection = StaticFunctions.CropRectangleFromImage(FullScreenshot, ImageSpace, out FocusColor);
 
-                    UpdateImage(CroppedSection);
+                    Bitmap bmp = new Bitmap(ImageSpace.Width, ImageSpace.Height);
+                    Graphics g = Graphics.FromImage(bmp);
+                    g.CopyFromScreen(ImageSpace.Left, ImageSpace.Top, 0, 0, bmp.Size, CopyPixelOperation.SourceCopy);
+
+                    Color FocusColor;
+                    FocusColor = StaticFunctions.getColorAndDrawCenter(bmp, ImageSpace, out bmp);
+
+
+                    UpdateImage(bmp);
                     UpdateColor(FocusColor.R, FocusColor.G, FocusColor.B);
 
-                    /* Not explicitly calling GC.collect() => Spikes from 200MB to 1.2GB of RAM
-                     * Explicitly calling GC.collect() => Consistent ~24MB RAM usage
-                     * + Explicitly disposing images here => Consistent ~16MB RAM usage
-                     */
-                    FullScreenshot.Dispose();
-                    CroppedSection.Dispose();
-                    
+                    bmp.Dispose();
+                    g.Dispose();
                 }
                 UpdateText($"X:{MousePosition.X}", $"Y:{MousePosition.Y}");
 
@@ -136,19 +134,6 @@ namespace MouseTool
             }
         }
 
-
-
-        /// <summary>
-        /// Gets a screenshot of the entire screen
-        /// </summary>
-        /// <returns>The image with the screenshot</returns>
-        private Bitmap GetScreenshot()
-        {   
-            Bitmap bitmap = new Bitmap(MonitorWidth, MonitorHeight);
-            Graphics gra = Graphics.FromImage((Image)bitmap);
-            gra.CopyFromScreen(0, 0, 0, 0, bitmap.Size);
-            return bitmap;
-        }
 
         /// <summary>
         /// Updates the PictureBox element with an image and refreshes it
@@ -225,44 +210,37 @@ namespace MouseTool
     }
     static class StaticFunctions
     {
-        // From here: https://stackoverflow.com/a/7939908/16110236
-
         /// <summary>
-        /// Returns a cropped section of an image
+        /// Gets the color from where the mouse is and draws a red pixel on it.
         /// </summary>
-        /// <param name="b">The full image</param>
-        /// <param name="r">The rectangle to be cut</param>
-        /// <param name="MiddlePixelColor">The color of the pixel in the middle/mouse position</param>
-        /// <returns>A cropped section of a bitmap image</returns>
-        public static Bitmap CropRectangleFromImage(this Bitmap b, Rectangle r, out Color MiddlePixelColor)
+        /// <param name="b">The original image passed in</param>
+        /// <param name="r">The rectangle used to crop the image</param>
+        /// <param name="p">The bitmap to be replaced with the edited version</param>
+        /// <returns>The color of the pixel at the middle of the screen</returns>
+        public static Color getColorAndDrawCenter(Bitmap b, Rectangle r, out Bitmap p)
         {
-            Bitmap nb = new Bitmap(r.Width, r.Height);
-            using (Graphics g = Graphics.FromImage(nb))
+
+            Point MousePosition = Cursor.Position;
+            Rectangle ScreenSize = Screen.PrimaryScreen.Bounds;
+
+            int MidX = GetCorrectPosition(MousePosition.X, r.Width, r.X, ScreenSize.Width);
+            int MidY = GetCorrectPosition(MousePosition.Y, r.Height, r.Y, ScreenSize.Height);
+
+            Color middleColor;
+            try
             {
-                g.DrawImage(b, -r.X, -r.Y);
-                Color red = Color.Red;
-
-                Point MousePosition = Cursor.Position;
-                Rectangle ScreenSize = Screen.PrimaryScreen.Bounds;
-
-                int MidX = GetCorrectPosition(MousePosition.X, r.Width, r.X, ScreenSize.Width);
-                int MidY = GetCorrectPosition(MousePosition.Y, r.Height, r.Y, ScreenSize.Height);
-
-                try
-                {
-                    MiddlePixelColor = nb.GetPixel(MidX, MidY);
-                }
-                // Moving the mouse too fast sometimes causes this, for some reason
-                catch (ArgumentOutOfRangeException)
-                {
-                    MidX = (int)Math.Floor((double)r.Width / 2);
-                    MidY = (int)Math.Floor((double)r.Height / 2);
-                    MiddlePixelColor = nb.GetPixel(MidX, MidY);
-                }
-
-                nb.SetPixel(MidX, MidY, red);
-                return nb;
+                middleColor = b.GetPixel(MidX, MidY);
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                MidX = (int)(Math.Floor((double)(b.Size.Width / 2)));
+                MidY = (int)(Math.Floor((double)(b.Size.Height / 2)));
+                middleColor = b.GetPixel(MidX, MidY);
+            }
+            b.SetPixel(MidX, MidY, Color.Red);
+            p = (Bitmap)b.Clone();
+
+            return middleColor;
         }
 
         /// <summary>
